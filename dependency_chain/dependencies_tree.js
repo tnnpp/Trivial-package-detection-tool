@@ -1,8 +1,8 @@
-import { dependencies_path } from "./dependencies_path";
-export function dependencies_tree(chains, name){
+import { dependencies_path } from "./dependencies_path.js";
+export function dependencies_tree(name){
+    const chain = dependencies_path(name);
     // create dependency tree 
     function buildTree(chains) {
-    const count = 0
     const root = {};
     for (const chain of chains) {
         let current = root;
@@ -24,7 +24,8 @@ export function dependencies_tree(chains, name){
         printTree(subtree, newIndent, last);
     });
     }
-    const chains = dependencies_path(name);
-    const tree = buildTree(chains);
+    
+    const tree = buildTree(chain);
     printTree(tree);
 }
+

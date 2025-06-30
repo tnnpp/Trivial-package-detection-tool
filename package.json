@@ -14,6 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "cloc": "^2.6.0-cloc",
+    "commander": "^14.0.0",
     "typhonjs-escomplex": "^0.1.0"
   }
 }

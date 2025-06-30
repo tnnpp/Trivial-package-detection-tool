@@ -6,6 +6,7 @@ import path from 'path';
 // recursive walk through a module and find all dependency chain
 export function dependencies_path(name, baseDir= process.cwd()){
     const packageChain = [];
+    const pathChain = [];
     const visited = new Set()
     function dependcies_chain(name, currentPkg){
     /**
@@ -39,6 +40,7 @@ export function dependencies_path(name, baseDir= process.cwd()){
     const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
     if (deps.length === 0) {
       packageChain.push(nextPkg);
+      pathChain
       return;
     }
 
