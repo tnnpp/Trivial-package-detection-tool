@@ -4,6 +4,7 @@
   "bin": {
     "trivial-tool": "./index.js"
   },
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
