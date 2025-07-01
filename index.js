@@ -2,6 +2,7 @@
 import { Command } from 'commander';
 import { dependencies_tree } from "./dependency_chain/dependencies_tree.js";
 import { dependencies_path } from './dependency_chain/dependencies_path.js';
+import { Analyze } from './detect/Analyze.js';
 const program = new Command();
 
 program
@@ -28,6 +29,19 @@ const  pathListCommand = program
 pathListCommand
   .argument('<package>', 'package name to analyze')
   .action((pkgName) => {
-    dependencies_path(pkgName)
+    const path = dependencies_path(pkgName)
+    console.log(path)
   });
+
+// analyze <package> : analyze the package and its dependencies
+const  analyzeCommand = program
+  .command('analyze')
+  .description('Analyze the package and its dependencies.')
+analyzeCommand
+  .argument('<package>', 'package name to analyze')
+  .action((pkgName) => {
+    const analyze = Analyze(pkgName)
+    console.log(analyze)
+  });
+
 program.parse();

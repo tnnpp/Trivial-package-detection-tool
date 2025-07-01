@@ -66,8 +66,5 @@ export  function dependencies_path(pkgName, baseDir= process.cwd()) {
         }
     }
 
-    console.log(folderMap);
     return folderMap;
 }
-
-// dependencies_path('@babel/parser')
