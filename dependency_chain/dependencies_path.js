@@ -1,68 +1,73 @@
-import fs from 'fs';
-import path from 'path';
+// import { dependencies_chain } from "./dependencies_chain.js";
+import { dependencies_count } from "./dependencies_count.js";
+import { globSync } from 'glob';
 
-// find all path and their dependencies chain 
+export  function dependencies_path(pkgName, baseDir= process.cwd()) {
+    const dependencies = dependencies_count(pkgName, baseDir);
+    const dependencyList = dependencies.dependencies;
 
-// recursive walk through a module and find all dependency chain
-export function dependencies_path(name, baseDir= process.cwd()){
-    const packageChain = [];
-    const pathChain = [];
-    const visited = new Set()
-    function dependcies_chain(name, currentPkg){
-    /**
-     * done dfs to find all dependency by using packag.json until no dependency
-     */
-    // avoid cycle 
-    const key = `${currentPkg.join('>')}>${name}`;
-    if (visited.has(key)){
-        return;
-    }
-    // const modulePath = path.join(baseDir, ...currentPath, 'node_modules', name);
+    const folderMap = {};
 
-    const modulePath = path.join(baseDir, 'node_modules', name);
-    const jsonPath = path.join(modulePath, 'package.json');
-
-    // if file at jsonPath doesn't exist 
-    if (!fs.existsSync(jsonPath)){
-        console.log("can't find package.json file")
-        return;
-    } 
+    for (const depName of dependencyList) {
+        let file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
+            nodir: true,
+            ignore: [
+            '**/test/**',
+            '**/tests/**',
+            '**/__tests__/**',
+            '**/test-utils/**',
+            '**/*.spec.*',
+            '**/*.test.*',
+            '**/*.d.ts',
+            '**/dist/**',
+            '**/build/**',
+            '**/coverage/**',
+            '**/example/**',
+            '**/examples/**',
+            '**/docs/**',
+            '**/*.config.js',
+            '**/*.config.cjs',
+            '**/*.config.ts',
+            '**/*.config.tjs',
+            ]
+        });
+       
+        // fallback: no file found
+        if (file.length === 0) {
+            file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
+            nodir: true,
+            ignore: [
+                '**/test/**',
+                '**/tests/**',
+                '**/__tests__/**',
+                '**/test-utils/**',
+                '**/*.spec.*',
+                '**/*.test.*',
+                '**/*.d.ts',
+                '**/coverage/**',
+                '**/example/**',
+                '**/examples/**',
+                '**/docs/**',
+                '**/*.config.js',
+                '**/*.config.cjs',
+                '**/*.config.ts',
+                '**/*.config.tjs',
+            ]
+            });
+        }
     
-    let pkg;
-    try{
-        pkg = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
-    } catch (error){
-        console.log("can't access package.json file error:", error)
-        return;
-    }
-    
-    const nextPkg = [...currentPkg, name];
-    const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
-    if (deps.length === 0) {
-      packageChain.push(nextPkg);
-      pathChain
-      return;
+        if (file.length === 0){
+               console.log("can't find dependency path")
+               folderMap[depName] = []
+               return;
+           } 
+        else{
+           folderMap[depName] = file;
+        }
     }
 
-    for (const dep of deps) {
-      dependcies_chain(dep, nextPkg);
-    }
-
-    if (deps.length === 0) {
-      packageChain.push(nextPkg);
-    }
-  }
-
-  dependcies_chain(name, []);
-  return packageChain;
+    console.log(folderMap);
+    return folderMap;
 }
 
-
-
-
-// const chains = dependencies_path('can-i-ignore-scripts');
-// const tree = buildTree(chains);
-// printTree(tree);
-// const { size, dependencies } = countDependency(chains);
-// console.log("Total unique dependencies:", size);
-// console.log("Dependencies:", [...dependencies]);
+// dependencies_path('@babel/parser')

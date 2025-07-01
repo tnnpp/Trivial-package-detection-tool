@@ -1,7 +1,7 @@
-import { dependencies_path } from "./dependencies_path.js";
+import { dependencies_chain } from "./dependencies_chain.js";
 
-function countDependency(name){
-    const chains = dependencies_path(name)
+export function dependencies_count(name, baseDir= process.cwd()){
+    const chains = dependencies_chain(name, baseDir)
     const dependency = new Set
     for ( const i of chains){
         for (const j of i){
