@@ -2,7 +2,7 @@ import { dependencies_path } from '../dependency_chain/dependencies_path.js';
 import { cloc } from './loc.js';
 import { complexity } from './complexity.js';
 
-export function Analyze(name, baseDir=process.cwd()){
+export function analyze(name, baseDir=process.cwd()){
     const results = []
     const filePath = dependencies_path(name, baseDir);
     for (const pkg in filePath){
