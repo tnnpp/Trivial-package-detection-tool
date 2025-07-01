@@ -5,9 +5,11 @@ import { globSync } from 'glob';
 export  function dependencies_path(pkgName, baseDir= process.cwd()) {
     const dependencies = dependencies_count(pkgName, baseDir);
     const dependencyList = dependencies.dependencies;
-
     const folderMap = {};
-
+    //  handle all case     
+    if (pkgName == ''){
+        dependencyList.delete('');
+    }
     for (const depName of dependencyList) {
         let file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
             nodir: true,
@@ -59,7 +61,6 @@ export  function dependencies_path(pkgName, baseDir= process.cwd()) {
         if (file.length === 0){
                console.log("can't find dependency path")
                folderMap[depName] = []
-               return;
            } 
         else{
            folderMap[depName] = file;
@@ -68,3 +69,4 @@ export  function dependencies_path(pkgName, baseDir= process.cwd()) {
 
     return folderMap;
 }
+dependencies_path("")

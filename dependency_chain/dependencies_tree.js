@@ -29,4 +29,3 @@ export function dependencies_tree(name, baseDir= process.cwd()){
     const tree = buildTree(chain);
     printTree(tree);
 }
-

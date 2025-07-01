@@ -8,7 +8,7 @@ export function dependencies_chain(name, baseDir= process.cwd()){
     const packageChain = [];
     const pathChain = [];
     const visited = new Set()
-    function dependcies_chain(name, currentPkg){
+    function reslove_chain(name, currentPkg){
     /**
      * done dfs to find all dependency by using packag.json until no dependency
      */
@@ -18,10 +18,12 @@ export function dependencies_chain(name, baseDir= process.cwd()){
         return;
     }
     // const modulePath = path.join(baseDir, ...currentPath, 'node_modules', name);
-
+    
     const modulePath = path.join(baseDir, 'node_modules', name);
-    const jsonPath = path.join(modulePath, 'package.json');
-
+    let jsonPath = path.join(modulePath, 'package.json');
+    if (name == ""){
+        jsonPath = path.join(baseDir, 'package.json');
+    }
     // if file at jsonPath doesn't exist 
     if (!fs.existsSync(jsonPath)){
         console.log("can't find package.json file")
@@ -45,7 +47,7 @@ export function dependencies_chain(name, baseDir= process.cwd()){
     }
 
     for (const dep of deps) {
-      dependcies_chain(dep, nextPkg);
+      reslove_chain(dep, nextPkg);
     }
 
     if (deps.length === 0) {
@@ -53,7 +55,7 @@ export function dependencies_chain(name, baseDir= process.cwd()){
     }
   }
 
-  dependcies_chain(name, []);
+  reslove_chain(name, []);
   return packageChain;
 }
 
