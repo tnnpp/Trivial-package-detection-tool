@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
-import { dependencies_tree } from "./dependency_chain/dependencies_tree.js";
-import { dependencies_path } from './dependency_chain/dependencies_path.js';
-import { analyze } from './detect/analyze.js';
+
+import { DependencyAnalyzer } from './DependencyAnalyzer.js';
+import { PackageAnalyzer } from './PackageAnalyzer.js';
+
 const program = new Command();
 
 program
@@ -19,8 +20,8 @@ const treeCommand = program
 treeCommand
   .argument('[package]', 'package name to analyze (blank = all)')
   .action((pkgName) => {
-    const name = pkgName || ''; 
-    dependencies_tree(name);
+    const analyzer = new DependencyAnalyzer(pkgName || '');
+    analyzer.printTree();
   });
 
 // pathList <package> : for print path of file that use to count 
@@ -30,9 +31,9 @@ const  pathListCommand = program
 pathListCommand
   .argument('[package]', 'package name to analyze (blank = all)')
   .action((pkgName) => {
-    const name = pkgName || ''; 
-    const path = dependencies_path(name)
-    console.log(path)
+    const analyzer = new PackageAnalyzer(pkgName || '',);
+    const path = analyzer.getFilesPath()
+    console.log(path);
   });
 
 // analyze <package> : analyze the package and its dependencies
@@ -42,9 +43,9 @@ const  analyzeCommand = program
 analyzeCommand
   .argument('[package]', 'package name to analyze (blank = all)')
   .action((pkgName) => {
-    const name = pkgName || ''; 
-    const result = analyze(name)
-    console.log(result)
+    const analyzer = new PackageAnalyzer(pkgName || '',);
+    const result = analyzer.analyzePackages()
+    console.log(result);
   });
 
 program.parse();
