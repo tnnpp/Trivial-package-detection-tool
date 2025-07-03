@@ -16,7 +16,6 @@ export class PackageAnalyzer {
   getFilesPath() {
     const dependencies = this.dependencyAnalyzer.getDependencyCount()
     const dependencyList = dependencies.dependencies;
-    console.log(dependencyList)
     const folderMap = {};
     //  handle all case     
     if (this.pkgName == ''){
@@ -71,7 +70,6 @@ export class PackageAnalyzer {
         }
     
         if (file.length === 0){
-               console.log("can't find dependency path")
                folderMap[depName] = []
            } 
         else{
@@ -149,25 +147,22 @@ export class PackageAnalyzer {
 
     for (const pkg of pkgs) {
       if (pkg.cloc === -1 || pkg.complexity === -1 || pkg.function === -1) {
-        pkg.is_trivial = 'unknown';
+        pkg['is_trivial'] = 'unknown';
         continue;
       }
 
-      if (pkg.cloc <= 40 && pkg.complexity <= 10) {
-        pkg.is_trivial = 'logic trivial';
+      if (pkg.cloc <= 35 && pkg.complexity <= 10) {
+        pkg['is_trivial'] = 'trivial';
         trivial++;
       } else if (pkg.cloc >= 200 && pkg.complexity <= 5) {
-        pkg.is_trivial = 'data trivial';
+        pkg['is_trivial'] = 'data package';
         dataTrivial++;
       } else {
-        pkg.is_trivial = 'non-trivial';
+        pkg['is_trivial'] = 'non-trivial';
         nonTrivial++;
       }
     }
-
-    return {
-      summary: { trivial, dataTrivial, nonTrivial },
-      details: pkgs
-    };
+   
+    return pkgs
   }
 }

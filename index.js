@@ -3,6 +3,7 @@ import { Command } from 'commander';
 
 import { DependencyAnalyzer } from './DependencyAnalyzer.js';
 import { PackageAnalyzer } from './PackageAnalyzer.js';
+import { TreeVisualizer } from './TreeVisualizer.js';
 
 const program = new Command();
 
@@ -20,7 +21,7 @@ const treeCommand = program
 treeCommand
   .argument('[package]', 'package name to analyze (blank = all)')
   .action((pkgName) => {
-    const analyzer = new DependencyAnalyzer(pkgName || '');
+    const analyzer = new TreeVisualizer(pkgName || '');
     analyzer.printTree();
   });
 

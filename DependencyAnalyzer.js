@@ -10,9 +10,7 @@ export class DependencyAnalyzer {
   }
 
   resolveChain(name = this.name, currentPkg = []) {
-    const key = `${currentPkg.join('>')}>${name}`;
-    if (this.visited.has(key)) return;
-    this.visited.add(key);
+    if (this.visited.has(name)) return;;
 
     let modulePath = path.join(this.baseDir, 'node_modules', name);
     let jsonPath = path.join(modulePath, 'package.json');
@@ -32,6 +30,7 @@ export class DependencyAnalyzer {
     }
 
     const nextPkg = [...currentPkg, name];
+    this.visited.add(name);
     const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
 
     if (deps.length === 0) {
@@ -67,28 +66,5 @@ export class DependencyAnalyzer {
       size: depSet.size,
       dependencies: depSet,
     };
-  }
-
-  buildTree() {
-    const chains = this.getDependencyChains();
-    const root = {};
-    for (const chain of chains) {
-      let current = root;
-      for (const name of chain) {
-        if (!current[name]) current[name] = {};
-        current = current[name];
-      }
-    }
-    return root;
-  }
-
-  printTree(tree = this.buildTree(), indent = '', isLast = true) {
-    const entries = Object.entries(tree);
-    entries.forEach(([name, subtree], idx) => {
-      const last = idx === entries.length - 1;
-      console.log(indent + (isLast ? '└── ' : '├── ') + name);
-      const newIndent = indent + (isLast ? '    ' : '│   ');
-      this.printTree(subtree, newIndent, last);
-    });
   }
 }
