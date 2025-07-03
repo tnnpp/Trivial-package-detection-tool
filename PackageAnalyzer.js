@@ -18,10 +18,10 @@ export class PackageAnalyzer {
     const dependencyList = dependencies.dependencies;
     const folderMap = {};
     //  handle all case     
-    if (this.pkgName == ''){
-        dependencyList.delete('');
-    }
     for (const depName of dependencyList) {
+        if (depName == ""){
+          continue
+        }
         let file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
             nodir: true,
             ignore: [

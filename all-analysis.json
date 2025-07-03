@@ -1,0 +1,266 @@
+[
+    {
+        "package": "cloc",
+        "cloc": 0,
+        "complexity": 0,
+        "function": 0
+    },
+    {
+        "package": "commander",
+        "cloc": 2366,
+        "complexity": 752,
+        "function": 296
+    },
+    {
+        "package": "escomplex",
+        "cloc": 1152,
+        "complexity": 343,
+        "function": 170
+    },
+    {
+        "package": "check-types",
+        "cloc": 538,
+        "complexity": 332,
+        "function": 174
+    },
+    {
+        "package": "glob",
+        "cloc": 2358,
+        "complexity": 756,
+        "function": 228
+    },
+    {
+        "package": "foreground-child",
+        "cloc": 334,
+        "complexity": 94,
+        "function": 34
+    },
+    {
+        "package": "cross-spawn",
+        "cloc": 191,
+        "complexity": 52,
+        "function": 16
+    },
+    {
+        "package": "path-key",
+        "cloc": 11,
+        "complexity": 7,
+        "function": 2
+    },
+    {
+        "package": "shebang-command",
+        "cloc": 14,
+        "complexity": 5,
+        "function": 1
+    },
+    {
+        "package": "shebang-regex",
+        "cloc": 2,
+        "complexity": 1,
+        "function": 0
+    },
+    {
+        "package": "which",
+        "cloc": 99,
+        "complexity": 52,
+        "function": 10
+    },
+    {
+        "package": "isexe",
+        "cloc": 116,
+        "complexity": 55,
+        "function": 15
+    },
+    {
+        "package": "signal-exit",
+        "cloc": 451,
+        "complexity": 133,
+        "function": 49
+    },
+    {
+        "package": "jackspeak",
+        "cloc": 1607,
+        "complexity": -1,
+        "function": -1
+    },
+    {
+        "package": "@isaacs/cliui",
+        "cloc": 11,
+        "complexity": 2,
+        "function": 1
+    },
+    {
+        "package": "string-width",
+        "cloc": 41,
+        "complexity": 14,
+        "function": 1
+    },
+    {
+        "package": "eastasianwidth",
+        "cloc": 302,
+        "complexity": 393,
+        "function": 5
+    },
+    {
+        "package": "emoji-regex",
+        "cloc": 24,
+        "complexity": 12,
+        "function": 6
+    },
+    {
+        "package": "strip-ansi",
+        "cloc": 8,
+        "complexity": 3,
+        "function": 1
+    },
+    {
+        "package": "ansi-regex",
+        "cloc": 8,
+        "complexity": 3,
+        "function": 1
+    },
+    {
+        "package": "string-width-cjs",
+        "cloc": 58,
+        "complexity": 27,
+        "function": 7
+    },
+    {
+        "package": "is-fullwidth-code-point",
+        "cloc": 31,
+        "complexity": 34,
+        "function": 1
+    },
+    {
+        "package": "wrap-ansi",
+        "cloc": 157,
+        "complexity": 59,
+        "function": 10
+    },
+    {
+        "package": "ansi-styles",
+        "cloc": 178,
+        "complexity": 26,
+        "function": 14
+    },
+    {
+        "package": "minimatch",
+        "cloc": 2731,
+        "complexity": -1,
+        "function": -1
+    },
+    {
+        "package": "@isaacs/brace-expansion",
+        "cloc": 347,
+        "complexity": 96,
+        "function": 22
+    },
+    {
+        "package": "@isaacs/balanced-match",
+        "cloc": 111,
+        "complexity": 48,
+        "function": 6
+    },
+    {
+        "package": "minipass",
+        "cloc": 1456,
+        "complexity": 535,
+        "function": 173
+    },
+    {
+        "package": "package-json-from-dist",
+        "cloc": 81,
+        "complexity": 20,
+        "function": 4
+    },
+    {
+        "package": "path-scurry",
+        "cloc": 2761,
+        "complexity": -1,
+        "function": -1
+    },
+    {
+        "package": "lru-cache",
+        "cloc": 2406,
+        "complexity": -1,
+        "function": -1
+    },
+    {
+        "package": "typhonjs-escomplex",
+        "cloc": 701,
+        "complexity": 238,
+        "function": 88
+    },
+    {
+        "package": "@typhonjs/babel-parser",
+        "cloc": 49,
+        "complexity": 13,
+        "function": 2
+    },
+    {
+        "package": "babel-runtime",
+        "cloc": 806,
+        "complexity": 480,
+        "function": 84
+    },
+    {
+        "package": "core-js",
+        "cloc": 27117,
+        "complexity": 18803,
+        "function": 7637
+    },
+    {
+        "package": "regenerator-runtime",
+        "cloc": 496,
+        "complexity": 158,
+        "function": 48
+    },
+    {
+        "package": "@babel/parser",
+        "cloc": 14526,
+        "complexity": 4498,
+        "function": 1168
+    },
+    {
+        "package": "@babel/types",
+        "cloc": 12980,
+        "complexity": 3382,
+        "function": 1143
+    },
+    {
+        "package": "@babel/helper-string-parser",
+        "cloc": 292,
+        "complexity": 96,
+        "function": 12
+    },
+    {
+        "package": "@babel/helper-validator-identifier",
+        "cloc": 153,
+        "complexity": 49,
+        "function": 17
+    },
+    {
+        "package": "typhonjs-escomplex-module",
+        "cloc": 168,
+        "complexity": 41,
+        "function": 20
+    },
+    {
+        "package": "escomplex-plugin-metrics-module",
+        "cloc": 314,
+        "complexity": 78,
+        "function": 31
+    },
+    {
+        "package": "typhonjs-escomplex-commons",
+        "cloc": 3832,
+        "complexity": 912,
+        "function": 312
+    },
+    {
+        "package": "typhonjs-ast-walker",
+        "cloc": 67,
+        "complexity": 28,
+        "function": 8
+    }
+]

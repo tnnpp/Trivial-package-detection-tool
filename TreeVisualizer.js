@@ -42,13 +42,18 @@ export class TreeVisualizer {
     entries.forEach(([name, subtree], idx) => {
       const last = idx === entries.length - 1;
       const is_trivial = this.getTrivialPkg(name)
+      if (name == ''){
+        name = this.baseDir
+      }
       if (is_trivial == 'trivial'){
         console.error(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
       } else if  (is_trivial == 'data package'){
         console.warn(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
       } else if  (is_trivial == 'unknown'){
         console.log(BLUE + indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name) + RESET);
-      } else {
+      } else if  (is_trivial == null){
+        console.log(indent + (isLast ? '└── ' : '├── ') + name + "  " );
+      }  else {
         console.log(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
       }
       const newIndent = indent + (isLast ? '    ' : '│   ');
