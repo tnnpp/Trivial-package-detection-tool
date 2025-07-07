@@ -5,17 +5,19 @@ import { DependencyAnalyzer } from './DependencyAnalyzer.js';
 import { globSync } from 'glob';
 
 const CLOC_PATH = 'cloc';
+const AUDIT_PATH = 'npm audit --json'
 
 export class PackageAnalyzer {
   constructor(pkgName = '', baseDir = process.cwd()) {
     this.pkgName = pkgName;
     this.baseDir = baseDir;
     this.dependencyAnalyzer = new DependencyAnalyzer(pkgName, baseDir);
+    this.dependencies = this.dependencyAnalyzer.getDependencyCount()
+
   }
 
   getFilesPath() {
-    const dependencies = this.dependencyAnalyzer.getDependencyCount()
-    const dependencyList = dependencies.dependencies;
+    const dependencyList = this.dependencies.dependencies;
     const folderMap = {};
     //  handle all case     
     for (const depName of dependencyList) {
@@ -93,12 +95,47 @@ export class PackageAnalyzer {
         const clocOutput = execSync(clocCmd);
         const clocResult = JSON.parse(clocOutput);
         return clocResult.SUM?.code || 0;
-      } catch {
+      } catch  {
         console.warn("fail to count LOC for", pkgName);
         return -1;
       }
     }
   }
+  vulnerability(){
+    const vulnMap = {};
+    try {
+      console.log('start')
+      const auditOutput = execSync('npm audit --json');
+      const auditJson = JSON.parse(auditOutput);
+  
+      }catch (err) {
+        if (err.stdout) {
+          const auditJson = JSON.parse(err.stdout.toString());
+          // console.log(auditJson)
+          try {
+            if (auditJson.vulnerabilities) {
+              for (const pkg in auditJson.vulnerabilities ){
+                if (!(pkg in vulnMap)){
+                  vulnMap[pkg] = auditJson.vulnerabilities[pkg].via.length
+                } else {
+                  vulnMap[pkg] += 1
+                }
+              }
+            }
+            
+          } catch (e){
+            console.log('Could not parse audit JSON from error stdout');
+          }
+        } else {
+        console.log('no audit output');
+      }
+    }    
+      console.log(vulnMap)
+      return vulnMap;
+    } 
+    
+  
+ 
 
   complexity(filePaths) {
     try {
@@ -124,6 +161,7 @@ export class PackageAnalyzer {
   analyzePackages() {
     const results = []
     const filePath = this.getFilesPath()
+    const vulnerabilities = this.vulnerability()
     for (const pkg in filePath){
         const loc = this.cloc(filePath[pkg], pkg);
         const complex = this.complexity(filePath[pkg]);
@@ -134,11 +172,12 @@ export class PackageAnalyzer {
             package: pkg,
             cloc: loc,
             complexity: complex['complexity'],
-            function: complex['function']
+            function: complex['function'],
+            dependencies: this.dependencies.size,
+            vulnerabilities: vulnerabilities[pkg]? vulnerabilities[pkg] : 0
         })
     }
     return results
-
   }
 
   detectTriviality() {
@@ -154,7 +193,7 @@ export class PackageAnalyzer {
       if (pkg.cloc <= 35 && pkg.complexity <= 10) {
         pkg['is_trivial'] = 'trivial';
         trivial++;
-      } else if (pkg.cloc >= 200 && pkg.complexity <= 5) {
+      } else if (pkg.cloc >= 100 && pkg.complexity <= 3 && pkg.function <= 1) {
         pkg['is_trivial'] = 'data package';
         dataTrivial++;
       } else {
