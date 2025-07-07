@@ -15,17 +15,12 @@ export class TreeVisualizer {
     this.analyzed = this.packageAnalyzer.detectTriviality()
   }
 
-  getTrivialPkg(name){
-    for (const pkg of this.analyzed){
-        if (pkg['package'] == name){
-            return  pkg['is_trivial']
-        }
-    }
-  }
+ 
 
   buildTree() {
     const chains = this.packageAnalyzer.dependencyAnalyzer.getDependencyChains();
     const root = {};
+    console.log("============================================================")
     for (const chain of chains) {
       let current = root;
       for (const name of chain) {
@@ -41,20 +36,22 @@ export class TreeVisualizer {
     const entries = Object.entries(tree);
     entries.forEach(([name, subtree], idx) => {
       const last = idx === entries.length - 1;
-      const is_trivial = this.getTrivialPkg(name)
+      const resultEntry = this.analyzed.result[name];
+      const is_trivial = resultEntry ? resultEntry.is_trivial : null;
+
       if (name == ''){
         name = this.baseDir
       }
       if (is_trivial == 'trivial'){
-        console.error(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
+        console.error(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial']);
       } else if  (is_trivial == 'data package'){
-        console.warn(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
+        console.warn(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial']);
       } else if  (is_trivial == 'unknown'){
-        console.log(BLUE + indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name) + RESET);
+        console.log(BLUE + indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial'] + RESET);
       } else if  (is_trivial == null){
         console.log(indent + (isLast ? '└── ' : '├── ') + name + "  " );
       }  else {
-        console.log(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.getTrivialPkg(name));
+        console.log(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial']);
       }
       const newIndent = indent + (isLast ? '    ' : '│   ');
       this.printTree(subtree, newIndent, last);

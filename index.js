@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { PackageAnalyzer } from './PackageAnalyzer.js';
 import { TreeVisualizer } from './TreeVisualizer.js';
+import { DependencyAnalyzer } from './DependencyAnalyzer.js';
 
 const program = new Command();
 
@@ -24,7 +25,7 @@ scanCommand
   .action((pkgName, options) => {
     const analyzer = new TreeVisualizer(pkgName || '');
     if (options.json){
-      const result = analyzer.packageAnalyzer.detectTriviality()
+      const result = analyzer.analyzed
       console.log(result)
 
       const fileName = pkgName ? `${pkgName}-trivial-analysis.json` : 'all-trivial-analysis.json';
@@ -34,7 +35,16 @@ scanCommand
       
       console.log(`Result written to ${filePath}`);
     } else {
+      const { result, trivial, data, nonTrivial } = analyzer.analyzed;
+      const total = Object.keys(result).length;
+      const error = total - (trivial + data + nonTrivial)
       analyzer.printTree();
+      
+      console.log(`Trivial Package founded: ${trivial}/${total} (${((trivial/total)*100).toFixed(2)}%)`)
+      console.log(`data Package founded: ${data}/${total} (${((data/total)*100).toFixed(2)}%)`)
+      if (error != 0) {
+        console.error(`Detect Error: ${error}/${total} (${((error/total)*100).toFixed(2)}%)`)
+      }
     }
   });
 
@@ -69,9 +79,20 @@ analyzeCommand
       fs.writeFileSync(filePath, JSON.stringify(result, null, 4), 'utf-8');
       
       console.log(`Result written to ${filePath}`);
+
     } 
   });
 
+  const chainCommand = program
+    .command('chain')
+    .description("Get package's dependencies chain.")
+  chainCommand
+    .argument('[package]', 'package name to analyze (blank = all)')
+    .action((pkgName) =>{
+      const dependencyAnalyzer = new DependencyAnalyzer(pkgName || '');
+      console.log(dependencyAnalyzer.getDependencyChains())
+    }
+    )
 
 
 program.parse();

@@ -104,14 +104,12 @@ export class PackageAnalyzer {
   vulnerability(){
     const vulnMap = {};
     try {
-      console.log('start')
       const auditOutput = execSync('npm audit --json');
       const auditJson = JSON.parse(auditOutput);
   
       }catch (err) {
         if (err.stdout) {
           const auditJson = JSON.parse(err.stdout.toString());
-          // console.log(auditJson)
           try {
             if (auditJson.vulnerabilities) {
               for (const pkg in auditJson.vulnerabilities ){
@@ -130,7 +128,6 @@ export class PackageAnalyzer {
         console.log('no audit output');
       }
     }    
-      console.log(vulnMap)
       return vulnMap;
     } 
     
@@ -159,32 +156,35 @@ export class PackageAnalyzer {
   }
 
   analyzePackages() {
-    const results = []
+    const results = {}
     const filePath = this.getFilesPath()
     const vulnerabilities = this.vulnerability()
+    const all = filePath.size || Object.keys(filePath).length;
+    let n = 0
     for (const pkg in filePath){
+        n += 1
         const loc = this.cloc(filePath[pkg], pkg);
         const complex = this.complexity(filePath[pkg]);
         if (complex['complexity'] == -1) {
             console.warn('can not find complexity of : ', pkg)
         }
-        results.push({
-            package: pkg,
+        results[pkg] = {
             cloc: loc,
             complexity: complex['complexity'],
             function: complex['function'],
             dependencies: this.dependencies.size,
             vulnerabilities: vulnerabilities[pkg]? vulnerabilities[pkg] : 0
-        })
+        }
+        console.log(`Analyze ${n}/${all}`)
     }
     return results
   }
 
   detectTriviality() {
     const pkgs = this.analyzePackages();
-    let trivial = 0, dataTrivial = 0, nonTrivial = 0;
+    let trivial = 0, data = 0, nonTrivial = 0;
 
-    for (const pkg of pkgs) {
+    for (const [pkgName, pkg] of Object.entries(pkgs)) {
       if (pkg.cloc === -1 || pkg.complexity === -1 || pkg.function === -1) {
         pkg['is_trivial'] = 'unknown';
         continue;
@@ -195,13 +195,28 @@ export class PackageAnalyzer {
         trivial++;
       } else if (pkg.cloc >= 100 && pkg.complexity <= 3 && pkg.function <= 1) {
         pkg['is_trivial'] = 'data package';
-        dataTrivial++;
+        data++;
       } else {
         pkg['is_trivial'] = 'non-trivial';
         nonTrivial++;
       }
     }
-   
-    return pkgs
+    return { 
+      result : pkgs,
+      trivial,
+      data,
+      nonTrivial 
+    }
+  }
+
+  RiskAnalyze(){
+    const detected = this.detectTriviality().result
+    const chains = this.dependencyAnalyzer.getDependencyChains()
+
+    for (chain of chains){
+      for (pkg of chain){
+        
+      }
+    }
   }
 }
