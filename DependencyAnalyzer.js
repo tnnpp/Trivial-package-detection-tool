@@ -74,7 +74,6 @@ export class DependencyAnalyzer {
   getDependencyMapCount() {
     const result = {};
     for (const [pkg, depSet] of this.dependencyMap.entries()) {
-      console.log(pkg)
       result[pkg] = depSet.size;
     }
     return result;

@@ -82,6 +82,65 @@ export class PackageAnalyzer {
 
     return folderMap;
     }
+  
+    getOneFilesPath(depName) {
+    const folderMap = {};
+    //  handle all case     
+      let file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
+          nodir: true,
+          ignore: [
+          '**/test/**',
+          '**/tests/**',
+          '**/__tests__/**',
+          '**/test-utils/**',
+          '**/*.spec.*',
+          '**/*.test.*',
+          '**/*.d.ts',
+          '**/dist/**',
+          '**/build/**',
+          '**/coverage/**',
+          '**/example/**',
+          '**/examples/**',
+          '**/docs/**',
+          '**/*.config.js',
+          '**/*.config.cjs',
+          '**/*.config.ts',
+          '**/*.config.tjs',
+          ]
+      });
+      
+      // fallback: no file found
+      if (file.length === 0) {
+          file = globSync(`node_modules/${depName}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
+          nodir: true,
+          ignore: [
+              '**/test/**',
+              '**/tests/**',
+              '**/__tests__/**',
+              '**/test-utils/**',
+              '**/*.spec.*',
+              '**/*.test.*',
+              '**/*.d.ts',
+              '**/coverage/**',
+              '**/example/**',
+              '**/examples/**',
+              '**/docs/**',
+              '**/*.config.js',
+              '**/*.config.cjs',
+              '**/*.config.ts',
+              '**/*.config.tjs',
+          ]
+          });
+      }
+  
+      if (file.length === 0){
+              folderMap[depName] = []
+          } 
+      else{
+          folderMap[depName] = file;
+      }
+    return folderMap;
+    }
 
   cloc(filePaths, pkgName) {
     try {
@@ -157,9 +216,15 @@ export class PackageAnalyzer {
   }
 
 
-  analyzePackages() {
+  analyzePackages(opt="") {
     const results = {}
-    const filePath = this.getFilesPath()
+    let filePath;
+    if (opt == ""){
+      filePath = this.getFilesPath();
+    } else {
+      filePath = this.getOneFilesPath(opt);
+      console.log(filePath)
+    }
     const vulnerabilities = this.vulnerability()
     const all = filePath.size || Object.keys(filePath).length;
     let n = 0
@@ -182,8 +247,15 @@ export class PackageAnalyzer {
     return results
   }
 
-  detectTriviality() {
-    const pkgs = this.analyzePackages();
+  detectTriviality(opt="") {
+    let pkgs
+    if (opt == ""){
+      pkgs = this.analyzePackages();
+    } else {
+      pkgs = this.analyzePackages(opt);
+
+    }
+    
     let trivial = 0, data = 0, normal = 0;
 
     for (const [pkgName, pkg] of Object.entries(pkgs)) {

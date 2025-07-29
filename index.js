@@ -53,6 +53,21 @@ scanCommand
     }
   });
 
+const scanOneCommand = program
+  .command('scanOne')
+  .description('Print the dependency tree of a package');
+scanOneCommand
+  .argument('[package]', 'package name to analyze (blank = all)')
+  .action((pkgName, options) => {
+    if (pkgName != ""){
+      const analyzer = new PackageAnalyzer(pkgName)
+      const result = analyzer.detectTriviality(pkgName)
+      console.log(result)
+    }else {
+      console.log("Please enter package name")
+    }
+
+  })
 // pathList <package> : for print path of file that use to count 
 const  pathListCommand = program
   .command('pathlist')
