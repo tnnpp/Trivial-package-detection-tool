@@ -1,0 +1,225 @@
+{
+    "result": {
+        "glob": {
+            "cloc": 2358,
+            "complexity": 756,
+            "function": 228,
+            "dependencies": 6,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "foreground-child": {
+            "cloc": 334,
+            "complexity": 94,
+            "function": 34,
+            "dependencies": 2,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "cross-spawn": {
+            "cloc": 191,
+            "complexity": 52,
+            "function": 16,
+            "dependencies": 3,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "path-key": {
+            "cloc": 11,
+            "complexity": 7,
+            "function": 2,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "shebang-command": {
+            "cloc": 14,
+            "complexity": 5,
+            "function": 1,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "shebang-regex": {
+            "cloc": 2,
+            "complexity": 1,
+            "function": 0,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "which": {
+            "cloc": 99,
+            "complexity": 52,
+            "function": 10,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "isexe": {
+            "cloc": 116,
+            "complexity": 55,
+            "function": 15,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "signal-exit": {
+            "cloc": 451,
+            "complexity": 133,
+            "function": 49,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "jackspeak": {
+            "cloc": 1607,
+            "complexity": -1,
+            "function": -1,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "unknown"
+        },
+        "@isaacs/cliui": {
+            "cloc": 11,
+            "complexity": 2,
+            "function": 1,
+            "dependencies": 6,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "string-width": {
+            "cloc": 41,
+            "complexity": 14,
+            "function": 1,
+            "dependencies": 3,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "eastasianwidth": {
+            "cloc": 302,
+            "complexity": 393,
+            "function": 5,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "emoji-regex": {
+            "cloc": 24,
+            "complexity": 12,
+            "function": 6,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "strip-ansi": {
+            "cloc": 8,
+            "complexity": 3,
+            "function": 1,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "ansi-regex": {
+            "cloc": 8,
+            "complexity": 3,
+            "function": 1,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "trivial"
+        },
+        "string-width-cjs": {
+            "cloc": 58,
+            "complexity": 27,
+            "function": 7,
+            "dependencies": 3,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "is-fullwidth-code-point": {
+            "cloc": 31,
+            "complexity": 34,
+            "function": 1,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "wrap-ansi": {
+            "cloc": 157,
+            "complexity": 59,
+            "function": 10,
+            "dependencies": 3,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "ansi-styles": {
+            "cloc": 178,
+            "complexity": 26,
+            "function": 14,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "minimatch": {
+            "cloc": 2731,
+            "complexity": -1,
+            "function": -1,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "unknown"
+        },
+        "@isaacs/brace-expansion": {
+            "cloc": 347,
+            "complexity": 96,
+            "function": 22,
+            "dependencies": 1,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "@isaacs/balanced-match": {
+            "cloc": 111,
+            "complexity": 48,
+            "function": 6,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "minipass": {
+            "cloc": 1456,
+            "complexity": 535,
+            "function": 173,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "package-json-from-dist": {
+            "cloc": 81,
+            "complexity": 20,
+            "function": 4,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "normal"
+        },
+        "path-scurry": {
+            "cloc": 2761,
+            "complexity": -1,
+            "function": -1,
+            "dependencies": 2,
+            "vulnerabilities": 0,
+            "is_trivial": "unknown"
+        },
+        "lru-cache": {
+            "cloc": 2406,
+            "complexity": -1,
+            "function": -1,
+            "dependencies": 0,
+            "vulnerabilities": 0,
+            "is_trivial": "unknown"
+        }
+    },
+    "trivial": 6,
+    "data": 0,
+    "normal": 17,
+    "total_dependencies": 27,
+    "risk_package": []
+}

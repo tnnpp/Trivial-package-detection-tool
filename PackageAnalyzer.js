@@ -13,6 +13,7 @@ export class PackageAnalyzer {
     this.baseDir = baseDir;
     this.dependencyAnalyzer = new DependencyAnalyzer(pkgName, baseDir);
     this.dependencies = this.dependencyAnalyzer.getDependencyCount()
+    this.dependencyMapCount = this.dependencyAnalyzer.getDependencyMapCount();
 
   }
 
@@ -155,6 +156,7 @@ export class PackageAnalyzer {
     }
   }
 
+
   analyzePackages() {
     const results = {}
     const filePath = this.getFilesPath()
@@ -172,7 +174,7 @@ export class PackageAnalyzer {
             cloc: loc,
             complexity: complex['complexity'],
             function: complex['function'],
-            dependencies: this.dependencies.size,
+            dependencies: this.dependencyMapCount[pkg] || 0,
             vulnerabilities: vulnerabilities[pkg]? vulnerabilities[pkg] : 0
         }
         console.log(`Analyze ${n}/${all}`)
@@ -182,7 +184,7 @@ export class PackageAnalyzer {
 
   detectTriviality() {
     const pkgs = this.analyzePackages();
-    let trivial = 0, data = 0, nonTrivial = 0;
+    let trivial = 0, data = 0, normal = 0;
 
     for (const [pkgName, pkg] of Object.entries(pkgs)) {
       if (pkg.cloc === -1 || pkg.complexity === -1 || pkg.function === -1) {
@@ -197,26 +199,18 @@ export class PackageAnalyzer {
         pkg['is_trivial'] = 'data package';
         data++;
       } else {
-        pkg['is_trivial'] = 'non-trivial';
-        nonTrivial++;
+        pkg['is_trivial'] = 'normal';
+        normal++;
       }
     }
     return { 
       result : pkgs,
       trivial,
       data,
-      nonTrivial 
+      normal ,
+      total_dependencies : this.dependencies.size
     }
   }
 
-  RiskAnalyze(){
-    const detected = this.detectTriviality().result
-    const chains = this.dependencyAnalyzer.getDependencyChains()
-
-    for (chain of chains){
-      for (pkg of chain){
-        
-      }
-    }
-  }
+  
 }

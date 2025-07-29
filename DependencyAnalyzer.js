@@ -7,10 +7,12 @@ export class DependencyAnalyzer {
     this.baseDir = baseDir;
     this.visited = new Set();
     this.packageChains = [];
+    this.dependencyMap = new Map();
   }
 
   resolveChain(name = this.name, currentPkg = []) {
     if (this.visited.has(name)) return;;
+    
 
     let modulePath = path.join(this.baseDir, 'node_modules', name);
     let jsonPath = path.join(modulePath, 'package.json');
@@ -32,6 +34,7 @@ export class DependencyAnalyzer {
     const nextPkg = [...currentPkg, name];
     this.visited.add(name);
     const deps = pkg.dependencies ? Object.keys(pkg.dependencies) : [];
+    this.dependencyMap.set(name, new Set(deps));
 
     if (deps.length === 0) {
       this.packageChains.push(nextPkg);
@@ -66,5 +69,14 @@ export class DependencyAnalyzer {
       size: depSet.size,
       dependencies: depSet,
     };
+  }
+
+  getDependencyMapCount() {
+    const result = {};
+    for (const [pkg, depSet] of this.dependencyMap.entries()) {
+      console.log(pkg)
+      result[pkg] = depSet.size;
+    }
+    return result;
   }
 }

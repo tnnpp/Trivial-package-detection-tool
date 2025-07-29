@@ -24,10 +24,12 @@ scanCommand
   .option('-j, --json', 'Output result as JSON')
   .action((pkgName, options) => {
     const analyzer = new TreeVisualizer(pkgName || '');
+    const risk = analyzer.RiskAnalyze()
+    // --json
     if (options.json){
       const result = analyzer.analyzed
       console.log(result)
-
+      result['risk_package'] = risk
       const fileName = pkgName ? `${pkgName}-trivial-analysis.json` : 'all-trivial-analysis.json';
       const filePath = path.resolve(process.cwd(), fileName);
       // Write JSON file with pretty print
@@ -35,15 +37,18 @@ scanCommand
       
       console.log(`Result written to ${filePath}`);
     } else {
-      const { result, trivial, data, nonTrivial } = analyzer.analyzed;
+      const { result, trivial, data, normal } = analyzer.analyzed;
       const total = Object.keys(result).length;
-      const error = total - (trivial + data + nonTrivial)
+      const error = total - (trivial + data + normal)
       analyzer.printTree();
       
       console.log(`Trivial Package founded: ${trivial}/${total} (${((trivial/total)*100).toFixed(2)}%)`)
       console.log(`data Package founded: ${data}/${total} (${((data/total)*100).toFixed(2)}%)`)
       if (error != 0) {
         console.error(`Detect Error: ${error}/${total} (${((error/total)*100).toFixed(2)}%)`)
+      }
+      if (risk){
+        console.log(`Risk package:`, risk);
       }
     }
   });
@@ -71,6 +76,7 @@ analyzeCommand
     const analyzer = new PackageAnalyzer(pkgName || '',);
     const result = analyzer.analyzePackages()
     console.log(result);
+    // analyzer.RiskAnalyze()
     if (options.json){
       const fileName = pkgName ? `${pkgName}-analysis.json` : 'all-analysis.json';
       const filePath = path.resolve(process.cwd(), fileName);

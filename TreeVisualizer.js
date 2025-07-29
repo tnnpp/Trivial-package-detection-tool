@@ -14,7 +14,22 @@ export class TreeVisualizer {
     this.packageAnalyzer = new PackageAnalyzer(name, baseDir);
     this.analyzed = this.packageAnalyzer.detectTriviality()
   }
+  RiskAnalyze(){
+    const chains = this.packageAnalyzer.dependencyAnalyzer.getDependencyChains()
+    const detected = this.analyzed.result
+    const risk = new Set();
+    for (const chain of chains){
+      for (const pkg of chain){
+        if (detected[pkg] && detected[pkg]['is_trivial'] == 'trivial' && detected[pkg]['vulnerabilities'] > 0){
+          if (!(pkg in risk)){
+            risk.add(pkg);
+          }
+        }
+      }
 
+    }
+    return Array.from(risk);
+  }
  
 
   buildTree() {
