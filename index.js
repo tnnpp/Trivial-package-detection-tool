@@ -30,7 +30,8 @@ scanCommand
       const result = analyzer.analyzed
       console.log(result)
       result['risk_package'] = risk
-      const fileName = pkgName ? `${pkgName}-trivial-analysis.json` : 'all-trivial-analysis.json';
+      const safeName = pkgName.replace(/[\/@]/g, '_');
+      const fileName = safeName ? `${safeName}-trivial-analysis.json` : 'all-trivial-analysis.json';
       const filePath = path.resolve(process.cwd(), fileName);
       // Write JSON file with pretty print
       fs.writeFileSync(filePath, JSON.stringify(result, null, 4), 'utf-8');
@@ -62,6 +63,11 @@ scanOneCommand
     if (pkgName != ""){
       const analyzer = new PackageAnalyzer(pkgName)
       const result = analyzer.detectTriviality(pkgName)
+      const safeName = pkgName.replace(/[\/@]/g, '_');
+      const fileName = safeName ? `${safeName}-trivial-analysis.json` : 'all-trivial-analysis.json';
+      const filePath = path.resolve(process.cwd(), fileName);
+
+      fs.writeFileSync(filePath, JSON.stringify(result, null, 4), 'utf-8');
       console.log(result)
     }else {
       console.log("Please enter package name")
