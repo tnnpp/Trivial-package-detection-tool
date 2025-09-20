@@ -62,6 +62,7 @@ export class PackageAnalyzer {
       '**/*.spec.*', '**/*.test.*', '**/*.d.ts', '**/dist/**', '**/build/**',
       '**/coverage/**', '**/example/**', '**/examples/**', '**/docs/**',
       '**/*.config.js', '**/*.config.cjs', '**/*.config.ts', '**/*.config.tjs',
+      '**/node_modules/*/node_modules/**'
     ];
   }
 
@@ -70,7 +71,7 @@ export class PackageAnalyzer {
       '**/test/**', '**/tests/**', '**/__tests__/**', '**/test-utils/**',
       '**/*.spec.*', '**/*.test.*', '**/*.d.ts', '**/build/**',
       '**/coverage/**', '**/example/**', '**/examples/**', '**/docs/**',
-      '**/*.config.js', '**/*.config.cjs', '**/*.config.ts', '**/*.config.tjs',
+      '**/*.config.js', '**/*.config.cjs', '**/*.config.ts', '**/*.config.tjs','**/node_modules/*/node_modules/**'
     ];
   }
 
@@ -83,7 +84,7 @@ export class PackageAnalyzer {
       return clocResult.SUM?.code || 0;
     } catch {
       try {
-        const clocCmd = `${CLOC_PATH} node_modules/${pkgName} --include-lang=JavaScript,TypeScript --exclude-ext=d.ts --json`;
+        const clocCmd = `${CLOC_PATH} node_modules/${pkgName} --include-lang=JavaScript,TypeScript --exclude-ext=d.ts --exclude-dir=node_modules --json`;
         const clocOutput = execSync(clocCmd);
         const clocResult = JSON.parse(clocOutput);
         return clocResult.SUM?.code || 0;
@@ -182,7 +183,13 @@ export class PackageAnalyzer {
       }
 
       let hasOtherLangs = false
-      if (loc <= 1 && complex.function === 0) {
+      hasOtherLangs = globSync(`node_modules/${pkg}/**/*.{java,py,rb,pl,go,cpp,c,rs,php,cs,html,htm,css,scss,sass,less,sh,bash,bat,cmd,yaml,toml,ini,xml}`, {
+            nodir: true,
+            dot: true,
+            ignore: this.getGlobIgnoreExceptDistPatterns
+        }).length > 0;
+
+      if ( loc == 1 && complex.function === 0) {
         jsFiles = globSync(`node_modules/${pkg}/**/*.{js,ts,cjs,cts,mjs,mts,tsx,jsx}`, {
           nodir: true,
           ignore: this.getGlobIgnoreExceptDistPatterns(),
@@ -190,12 +197,8 @@ export class PackageAnalyzer {
         loc = this.cloc(jsFiles, pkg);
         complex = this.complexity(jsFiles);
         fileCount = jsFiles.length;
-
-       hasOtherLangs = globSync(`node_modules/${pkg}/**/*.{java,py,rb,pl,go,cpp,c,rs,php,cs,html,htm,css,scss,sass,less,sh,bash,bat,cmd,yaml,toml,ini,xml}`, {
-            nodir: true,
-            dot: true,
-            ignore: this.getGlobIgnoreExceptDistPatterns
-        }).length > 0;
+        
+       
       }
 
       for (const file of jsFiles) {
@@ -204,7 +207,7 @@ export class PackageAnalyzer {
           importLines.push(...lines);
         } catch (_) { }
       }
-
+      console.log(filePath)
       results[pkg] = {
         cloc: loc,
         complexity: complex.complexity,

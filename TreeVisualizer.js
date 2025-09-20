@@ -60,7 +60,7 @@ export class TreeVisualizer {
       if (is_trivial == 'trivial'){
         console.error(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial']);
       } else if  (is_trivial == 'data package'){
-        console.warn(indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial']);
+        console.warn(indent + (isLast ? '└── ' : '├── ') + name + "  " + "data-only");
       } else if  (is_trivial == 'unknown'){
         console.log(BLUE + indent + (isLast ? '└── ' : '├── ') + name + "  " + this.analyzed.result[name]['is_trivial'] + RESET);
       } else if  (is_trivial == null){
