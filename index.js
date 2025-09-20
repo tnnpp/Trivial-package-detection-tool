@@ -30,7 +30,7 @@ scanCommand
       const result = analyzer.analyzed
       console.log(result)
       result['risk_package'] = risk
-      const safeName = pkgName.replace(/[\/@]/g, '_');
+      const safeName = (pkgName || 'all').replace(/[\/@]/g, '_');
       const fileName = safeName ? `${safeName}-trivial-analysis.json` : 'all-trivial-analysis.json';
       const filePath = path.resolve(process.cwd(), fileName);
       // Write JSON file with pretty print
@@ -63,7 +63,7 @@ scanOneCommand
     if (pkgName != ""){
       const analyzer = new PackageAnalyzer(pkgName)
       const result = analyzer.detectTriviality(pkgName)
-      const safeName = pkgName.replace(/[\/@]/g, '_');
+      const safeName = (pkgName || 'all').replace(/[\/@]/g, '_');
       const fileName = safeName ? `${safeName}-trivial-analysis.json` : 'all-trivial-analysis.json';
       const filePath = path.resolve(process.cwd(), fileName);
 

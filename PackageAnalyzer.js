@@ -207,7 +207,7 @@ export class PackageAnalyzer {
           importLines.push(...lines);
         } catch (_) { }
       }
-      console.log(filePath)
+      
       results[pkg] = {
         cloc: loc,
         complexity: complex.complexity,
