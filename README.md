@@ -47,8 +47,8 @@ git clone https://github.com/tnnpp/Trivial-package-detection-tool.git
 ```npm link```
 
 ## How to use
-1. cd into your npm project
-2. use available command
+1. Navigate into your npm project directory.
+2. Run the available commands.
 
 ## Available Commands
 
